@@ -28,23 +28,56 @@
 export default {
   data() {
     return {
-      productName: '',
-      category: '',
+      productName: this.getProductName() || '',
+      category: this.getCategory() ||'',
+      // productName: this.fetchedProdName()|| '',
+      // category: this.fetchedCategory() ||'',
     }
   },
+  // created() {
+  //   this.fetchedProdName()
+  //   this.fetchedCategory()
+  // },
+  // updated() {
+  //   this.fetchedProdName()
+  //   this.fetchedCategory();
+
+  // },
   methods: {
     nextPage() {
-      const writeInfo = {
+      const defaultInfo = {
         productName: this.productName,
         category: this.category,
       }
-      this.$store.commit('defaultInfo', writeInfo);
+      this.$store.commit('defaultInfo', defaultInfo);
       this.$router.push('/product/priceInfo');
     },
     prevPage() {
       this.$router.go(-1)
 
-    }
+    },
+    getProductName() {
+      if (localStorage.vuex) {
+        let product = JSON.parse(localStorage.vuex).product;
+        // let product = JSON.parse(localStorage._secure__ls__metadata).product;
+        return product.productName;
+      }
+    },
+    getCategory() {
+      let product = JSON.parse(localStorage.vuex).product;
+      return product.category;
+    },
+    // fetchedProdName() {
+    //   // return this.$store.getters.fetchedProdName
+    //   console.log('fetchedProdName:', this.$store.state.product.productName);
+    //   return this.$store.state.product.productName
+    // },
+    // fetchedCategory() {
+    //   // return this.$store.getters.fetchedProdName
+    //   console.log('fetchedProdName:', this.$store.state.product.category);
+    //   return this.$store.state.product.category
+    // }
+
   }
 
 }

@@ -2,13 +2,13 @@
   <div class="addInfo">
     <form>
       <h1>부가 정보</h1>
-      <div>
-        <label for="title">제목</label>
-        <input type="text" id="title">
-      <div>
-        <label for="contents">내용</label>
-        <textarea id="contents" rows="5" cols="33"></textarea>
+      <div class="title">
+        <label for="title">제목</label> <br>
+        <input type="text" id="title" v-model="title">
       </div>
+      <div>
+        <label for="contents">내용</label> <br>
+        <textarea id="contents" rows="5" cols="33" v-model="contents"></textarea>
       </div>
     </form>
     <br><br>
@@ -22,17 +22,39 @@
 </template>
 
 <script>
+
 export default {
+  data() {
+    return {
+      title: this.getTitle() || '',
+      contents: this.getContents() || '',
+    }
+  },
   methods: {
     nextPage() {
-      console.log(this.productName);
-      console.log(this.category);
-      this.$router.push('/product/final')
+      const info = {
+        title: this.title,
+        contents: this.contents,
+      }
+      this.$store.commit('addInfo', info);
+      this.$router.push('/product/final');
     },
     prevPage() {
       this.$router.go(-1)
-
+    },
+    getTitle() {
+      if(localStorage.vuex) {
+        let product = JSON.parse(localStorage.vuex).product
+        return product.title
+      }
+    },
+    getContents() {
+      if(localStorage.vuex) {
+        let product = JSON.parse(localStorage.vuex).product;
+        return product.contents;
+      }
     }
+
   }
 }
 </script>
@@ -43,5 +65,9 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.title {
+  margin-bottom: 20px;
 }
 </style>

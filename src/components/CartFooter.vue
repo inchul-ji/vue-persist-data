@@ -11,16 +11,12 @@
 export default {
   methods: {
     defaultInfo () {
-      console.log('defaultInfo');
       this.$emit('defaultInfo')
     },
     price () {
-      console.log('price');
       this.$emit('price')
     },
-
   }
-
 }
 </script>
 

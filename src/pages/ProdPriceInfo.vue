@@ -20,19 +20,34 @@
 export default {
   data() {
     return {
-      monthPrice: '',
-      yearPrice: '',
+      monthPrice: this.getMonthPrice() || '',
+      yearPrice: this.getYearPrice() || '',
     }
   },
   methods: {
     nextPage() {
-      console.log(this.productName);
-      console.log(this.category);
+      const price = {
+        monthPrice: this.monthPrice,
+        yearPrice: this.yearPrice,
+      }
+      this.$store.commit('priceInfo', price)
       this.$router.push('/product/addInfo')
     },
     prevPage() {
       this.$router.go(-1)
-    }
+    },
+    getMonthPrice() {
+      if (localStorage.vuex) {
+        let product = JSON.parse(localStorage.vuex).product;
+        return product.monthPrice;
+      }
+    },
+    getYearPrice() {
+      if (localStorage.vuex) {
+        let product = JSON.parse(localStorage.vuex).product;
+        return product.yearPrice;
+      }
+    },
   }
 }
 </script>
